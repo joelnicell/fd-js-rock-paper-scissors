@@ -95,11 +95,11 @@ function game() {
   }
 
   if (playerScore > computerScore) {
-    finalResult = "🎉 You are the overall winner!";
+    finalResult = `🎉 You are the overall winner!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
   } else if (computerScore > playerScore) {
-    finalResult = "💻 The computer wins this time.";
+    finalResult = `💻 The computer wins this time.\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
   } else {
-    finalResult = "🤝 It's a tie!";
+    finalResult = `🤝 It's a tie!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
   }
 
   console.log("Final Result:");

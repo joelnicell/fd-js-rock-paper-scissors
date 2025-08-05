@@ -4,6 +4,8 @@ const MAGIC_MESSAGES = [
   "The fate of the universe is in your hands...",
   "A paper cut would really hurt here...",
   "Snip, Smother, or Smash?",
+  "It's clobbering time!",
+  "Scissors is basically 2 knives... easy choice..."
 ];
 
 const WINNER = {
@@ -11,6 +13,8 @@ const WINNER = {
   computer: 1,
   draw: 2,
 };
+
+const ROUNDS = 5;
 
 function randomItemFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -25,16 +29,16 @@ function generateRandomMessage() {
 }
 
 function userInput(message = `Are you choosing ${WORDS}?`) {
-  let response = prompt(`${message} \n\n${generateRandomMessage()}`);
+  let response = prompt(`${message}`);
   if (response === null) {
-    return;
+    return null;
   }
 
   response = response.toLowerCase().trim();
   if (WORDS.includes(response)) {
     return response;
   } else {
-    return userInput(`Please enter a valid option from: ${WORDS}`);
+    return userInput(`Please enter a valid option from: Rock, Paper or Scissors`);
   }
 }
 
@@ -69,14 +73,17 @@ function game() {
   let playerScore = 0;
   let computerScore = 0;
   let finalResult;
+  let cancelled = false;
 
-  for (let round = 1; round <= 5; round++) {
+  for (let round = 1; round <= ROUNDS; round++) {
     const playerSelection = userInput(
-      `Round ${round}: Choose rock, paper, or scissors.`
+      `Round ${round}: Choose Rock, Paper, or Scissors.\n\n${generateRandomMessage()}\n\nComputer: ${computerScore} - You: ${playerScore}`
     );
+
     if (playerSelection === null) {
-      console.log("Game exited by user.");
-      return;
+      // console.log("Game exited by user.");
+      cancelled = true;
+      break;
     }
 
     const computerSelection = computerPlay();
@@ -88,23 +95,29 @@ function game() {
       computerScore++;
     }
 
-    console.log(
-      `Score after Round ${round}: You ${playerScore} - ${computerScore} Computer\n`
-    );
+    // console.log(
+    //   `Score after Round ${round}: You ${playerScore} - ${computerScore} Computer\n`
+    // );
     alert(roundResult);
   }
 
+  if (cancelled) {
+    alert("You cancelled the game.\n\nRefresh the page to play 👾");
+    return;
+  } 
+  
   if (playerScore > computerScore) {
-    finalResult = `🎉 You are the overall winner!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
+    finalResult = `🎉 You are the overall winner!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.\n\nRefresh the page to play again 👾`;
   } else if (computerScore > playerScore) {
-    finalResult = `💻 The computer wins this time.\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
+    finalResult = `💻 The computer wins this time.\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.\n\nRefresh the page to play again 👾`;
   } else {
-    finalResult = `🤝 It's a tie!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.`;
+    finalResult = `🤝 It's a tie!\n\nComputer's score: ${computerScore}. Your score: ${playerScore}.\n\nRefresh the page to play again 👾`;
   }
 
-  console.log("Final Result:");
-  console.log(finalResult);
+  // console.log("Final Result:");
+  // console.log(finalResult);
   alert(finalResult);
 }
 
+alert(`Welcome to Rock Paper Scissors! Here's a recap of the rules:\n\nYou must choose one of three weapons: Rock 🪨, Paper 📄, or Scissors ✂️. Each weapon competes against a competitor's choice, each has strengths and weaknesses...\n\nPaper beats Rock, \nRock beats Scissors, \nand Scissors beats Paper.\n\nYou will have ${ROUNDS} rounds to defeat the evil AI - whoever has the most wins will come out victorious! 👑\n\nChoose wisely web warrior... 🫡`);
 game();
